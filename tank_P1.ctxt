@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.params=
+comment0.target=tank_P1()
+comment1.params=
+comment1.target=void\ act()
+comment2.params=
+comment2.target=void\ xiaoshi()
+comment3.params=
+comment3.target=void\ kaipaoX()
+comment3.text=\u53D1\u73B0\u76EE\u6807\uFF0C\u5F00\u70AE\ valueObj_XorP2\ \ Player\ tank_Boss
+comment4.params=
+comment4.target=void\ shanbiX()
+comment5.params=
+comment5.target=boolean\ isTurn()
+numComments=6

@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ act()
+comment0.text=\n\ Act\ -\ do\ whatever\ the\ transport\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
+comment1.params=
+comment1.target=int\ atWorldEdge()
+comment2.params=dist
+comment2.target=void\ move_LR(int)
+comment2.text=\n\ \ \ \ public\ void\ move(int\ distx,int\ disty)\n\ \ \ \ {\n\ \ \ \ \ \ \ \ setLocation\ (getX()\ +\ distx,\ getY()+disty);\n\n\ \ \ \ }\n
+comment3.params=dist
+comment3.target=void\ move_UD(int)
+numComments=4
