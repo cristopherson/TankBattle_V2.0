@@ -19,7 +19,6 @@ public class TankBattle extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1100,600, 1);  
         
-                
         addObject(new tank_P1(),1050,200);
         addObject(new tank_P1(),1050,550);
         addObject(new tank_P1(),1050,350);

@@ -1,16 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.util.List; 
+import jade.tools.introspector.gui.MyDialog;
 
-import jade.*;
-import jade.core.Agent;
-import jade.core.Profile;
-import jade.core.ProfileImpl;
-import jade.core.Runtime;
-import jade.core.behaviours.CyclicBehaviour;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
-import jade.wrapper.StaleProxyException;
-import agentGreenfoot.*;
+import java.util.List; 
 
 /**
  * Write a description of class tank_P1 here.
@@ -24,7 +15,6 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
      * Act - do whatever the tank_P1 wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    private AgentController agent;
     private String name;
     private int count=0;
     private static int COUNTER=0;
@@ -34,12 +24,8 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
     public tank_P1() {
         count = COUNTER++;
         name = "robocode" + count;
-
-        myJade = new MainRoboJade();  
-
-        agent = myJade.startMyJade("192.168.0.11", "1099",
-                name);
-
+        myJade = new MainRoboJade();
+        myJade.initAgent(name);
     }
     
     public void act() 
@@ -91,7 +77,21 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
         //Dissapear upon being destroyed
        xiaoshi();
        
-    }
+		if(myJade.isHelpRequired()) {
+			System.out.println("Help is required ");
+			RoboInfo roboInfo = myJade.getRoboInfo();
+
+			System.out.println(myJade.getId() + " is requiring for support");
+		if(roboInfo!=null) {
+			System.out.println(roboInfo.getId() + " is requiring for support");
+			System.out.println(this.name + " is processing request");
+		} else {
+			System.out.println("But reference is null, why?");
+		}
+			myJade.setHelpRequired(false);
+		}
+
+	}
     
     //Detect and dodge bullets
     public void xiaoshi(){
@@ -99,9 +99,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
         if(cb!=null){
             setImage("blast.gif");
             /* remove agent from the framework when the tank is destroyed */
-            if (agent != null)
-                myJade.deregisterAgent(agent);
-            else
+            if (!myJade.deregisterAgent())
                 System.out.println("No agent to deregister");
             Greenfoot.playSound("blast.wav");
             getWorld().removeObject(this);
@@ -122,19 +120,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
             dy=y-getY();
             int rotation0=getRotation();
             
-
-            try {
-
-                if (agent != null) {                    
-                    agent.putO2AObject(new RoboInfo(name, obj.getX(), obj.getY()), false);
-                } else
-                    System.out.println("Agent is null");
-                }catch (StaleProxyException e) {
-                    // TODO Auto-generated catch block
-                 e.printStackTrace();
-
-             }
-           
+            myJade.sendMessage(name, obj.getX(), obj.getY(), Event.HELP);
             
             /*Enemy is to the left*/
             if(dx<0 && -30<=dy && dy<=30){
