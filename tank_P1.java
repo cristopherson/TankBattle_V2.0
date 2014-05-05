@@ -45,7 +45,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
     public void act() 
     {
         count++;
-        // 随机转向
+        // Random steering
        
         if(Greenfoot.getRandomNumber(300)<0.01){
               turn(90);
@@ -62,7 +62,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
         d_gety=bianchang/2-getY();
         int rand = Greenfoot.getRandomNumber(3);
         
-        //遇到物体，转向
+        //Encounter objects, steering
         //turnObj b=(turnObj)this.getOneIntersectingObject(turnObj.class);
         //if(b!=null){turn(90);}
         if(isTurn()){turn(90);move(-dist);}
@@ -82,18 +82,18 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
         if(atWorldEdge()==4){setLocation(getX()+d_getx+1,getY());turn(90);}
         if(atWorldEdge()==41){setLocation(getX()+d_getx+1,getY()+d_gety+1);turn(90);}
         
-            //遇到炮弹 闪避
+            //Detect and dodge bullets
             shanbiX();
-            // 遇到玩家 开炮
+            // Encounter enemies and fire
             kaipaoX();
            
         }
-        //遇到炸弹，消失
+        //Dissapear upon being destroyed
        xiaoshi();
        
     }
     
-    //遇到炸弹，消失
+    //Detect and dodge bullets
     public void xiaoshi(){
         bangP2 cb=(bangP2)this.getOneIntersectingObject(bangP2.class);
         if(cb!=null){
@@ -107,7 +107,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
             getWorld().removeObject(this);
         }
     }
-    /*发现目标，开炮 valueObj_XorP2  Player tank_Boss*/
+    /*Find target and fire valueObj_XorP2  Player tank_Boss*/
     public void kaipaoX(){
         
         List<tank_P2> u=getObjectsInRange(150, tank_P2.class);
@@ -136,22 +136,22 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
              }
            
             
-            /*敌方在本方左边*/
+            /*Enemy is to the left*/
             if(dx<0 && -30<=dy && dy<=30){
                 turn(0-rotation0);int rotation=getRotation();
                 if(count%20==0){Greenfoot.playSound("fire.wav");getWorld().addObject( new enemymissileP1(rotation),getX()-30,getY());}
             }
-            /*敌方在本方右边*/
+            /*Enemy is to the right*/
             if(dx>0 && -30<=dy && dy<=30){
                 turn(180-rotation0);int rotation=getRotation();
                 if(count%20==0){Greenfoot.playSound("fire.wav");getWorld().addObject( new enemymissileP1(rotation),getX()+30,getY());}
             }
-            /*敌方在本方上边*/
+            /*Enemy above*/
             if(dy<0 && -30<=dx && dx<=30){
                 turn(90-rotation0);int rotation=getRotation();
                 if(count%20==0){Greenfoot.playSound("fire.wav");getWorld().addObject( new enemymissileP1(rotation),getX(),getY()-30);}
             }
-            /*敌方在本方下边*/
+            /*Enemy in square below*/
             if(dy>0 && -30<=dx && dx<=30){
                 turn(270-rotation0);int rotation=getRotation();
                 if(count%20==0){Greenfoot.playSound("fire.wav");getWorld().addObject( new enemymissileP1(rotation),getX(),getY()+30);}
@@ -159,7 +159,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
        }
     } 
     
-    //闪避
+    //Dodge
     public void shanbiX(){
     
         List<enemymissileP2> u=getObjectsInRange(250, enemymissileP2.class);
@@ -177,7 +177,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
             int rotation0=getRotation();
             //if(fangxiang==0) turn(90);
             
-            //敌方在本方左边
+            //Enemy to the left
             if(dx<0 && -20<=dy && dy<=20 ){
                 if(rotation0==0||rotation0==180){
                     if(getY()<100)setRotation(270);
@@ -185,7 +185,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
                     else turn(90);
                 }
             }
-            //敌方在本方右边
+            //Enemy to the right
             if(dx>0 && -20<=dy && dy<=20){
                 if(rotation0==0||rotation0==180){
                     if(getY()<100)setRotation(270);
@@ -193,7 +193,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
                     else turn(90);
                 }
             }
-            //敌方在本方上边
+            //Enemy above
             if(dy<0 && -20<=dx && dx<=20){
                 if(rotation0==90||rotation0==270){
                     if(getX()<100)setRotation(180);
@@ -201,7 +201,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
                     else turn(90);
                 }
             }
-            //敌方在本方下边
+            //Enemy below
             if(dy>0 && -20<=dx && dx<=20){
                 if(rotation0==90||rotation0==270){
                     if(getX()<100)setRotation(180);
@@ -214,7 +214,7 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
         }
     }
     
-    //遇到物体，是否转向
+    //move around encountered objects
     public boolean isTurn(){
     List<turnObj> u=getObjectsInRange(29, turnObj.class);
     if(!u.isEmpty()) return true;
