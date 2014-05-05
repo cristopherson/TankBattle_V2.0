@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List; 
+
 import jade.*;
 import jade.core.Agent;
 import jade.core.Profile;
@@ -9,6 +10,8 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
+import agentGreenfoot.*;
+
 /**
  * Write a description of class tank_P1 here.
  * 
@@ -25,14 +28,18 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
     private String name;
     private int count=0;
     private static int COUNTER=0;
-    //private int counter=0;
+    private int counter=0;
+    private MainRoboJade myJade;
     
     public tank_P1() {
         count = COUNTER++;
         name = "robocode" + count;
-        MainRoboJade myJade = new MainRoboJade();    
-        agent = myJade.startMyJade("192.168.96.134", "1099",
+
+        myJade = new MainRoboJade();  
+
+        agent = myJade.startMyJade("192.168.0.11", "1099",
                 name);
+
     }
     
     public void act() 
@@ -90,7 +97,12 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
     public void xiaoshi(){
         bangP2 cb=(bangP2)this.getOneIntersectingObject(bangP2.class);
         if(cb!=null){
-            //setImage("blast8.gif");
+            setImage("blast.gif");
+            /* remove agent from the framework when the tank is destroyed */
+            if (agent != null)
+                myJade.deregisterAgent(agent);
+            else
+                System.out.println("No agent to deregister");
             Greenfoot.playSound("blast.wav");
             getWorld().removeObject(this);
         }
@@ -110,15 +122,18 @@ public class tank_P1 extends transport implements turnObj,valueObj_P1
             dy=y-getY();
             int rotation0=getRotation();
             
+
             try {
+
                 if (agent != null) {                    
                     agent.putO2AObject(new RoboInfo(name, obj.getX(), obj.getY()), false);
                 } else
                     System.out.println("Agent is null");
                 }catch (StaleProxyException e) {
                     // TODO Auto-generated catch block
-			     e.printStackTrace();
-			 }    
+                 e.printStackTrace();
+
+             }
            
             
             /*敌方在本方左边*/
